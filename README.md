@@ -20,7 +20,7 @@ This guide explains how to set up and run the Digital Studies 101 installation s
 
 3. **Navigate to where you want to store the setup files:**
    ```bash
-   cd Desktop    # or wherever you prefer
+   cd repos    # or wherever you prefer
    ```
 
 4. **Clone the setup repository:**
@@ -33,23 +33,12 @@ This guide explains how to set up and run the Digital Studies 101 installation s
    cd python_setup_ds_101
    ```
 
-### Option B: Download ZIP (Alternative)
-
-1. **Go to the repository:** https://github.com/joostburgers/python_setup_ds_101
-2. **Click the green "Code" button**
-3. **Select "Download ZIP"**
-4. **Extract the ZIP file** to your desired location
-5. **Open VS Code** and navigate to the extracted folder
 
 ## Step 1: Open the Setup Project in VS Code
 
 1. **If you used Git clone, VS Code should already be in the right directory**
-2. **If you downloaded ZIP:**
-   - Click `File` → `Open Folder...`
-   - Navigate to your extracted `python_setup_ds_101` folder
-   - Click `Select Folder`
 
-3. **Verify you're in the right place:**
+2. **Verify you're in the right place:**
    - You should see files like `installs_required.py` and `install_vscode_extensions.py` in the file explorer
 
 ## Method 1: Using VS Code's Integrated Terminal (Recommended)
@@ -86,104 +75,6 @@ python install_vscode_extensions.py
 - Red X marks ❌ indicate failures that may need manual attention
 - **The first script may take 15-30 minutes** depending on your internet connection
 - **The second script is usually much faster** (2-5 minutes)
-
-## Method 2: Using VS Code's Python Extension Run Feature
-
-### Step 1: Install Python Extension (if not already installed)
-
-1. **Open Extensions panel:**
-   - Press `Ctrl+Shift+X` OR
-   - Click the Extensions icon in the left sidebar
-
-2. **Search for "Python":**
-   - Type "Python" in the search box
-   - Install the official **Python** extension by Microsoft
-
-### Step 2: Select Python Interpreter
-
-1. **Open Command Palette:**
-   - Press `Ctrl+Shift+P`
-
-2. **Select interpreter:**
-   - Type "Python: Select Interpreter"
-   - Choose your Python installation (should show version 3.8+)
-
-### Step 3: Run the Installation Scripts
-
-1. **First, run the package installer:**
-   - Click on `installs_required.py` in the file explorer
-   - Press `F5` OR Right-click → "Run Python File in Terminal" OR Click the ▶️ play button
-
-2. **Wait for completion, then run the extensions installer:**
-   - Click on `install_vscode_extensions.py` in the file explorer  
-   - Press `F5` OR Right-click → "Run Python File in Terminal" OR Click the ▶️ play button
-
-## Method 3: Using VS Code Tasks (Advanced)
-
-### Step 1: Create a Tasks Configuration
-
-1. **Open Command Palette:** `Ctrl+Shift+P`
-2. **Type:** "Tasks: Configure Task"
-3. **Select:** "Create tasks.json from template"
-4. **Choose:** "Others"
-
-### Step 2: Configure Tasks
-
-Replace the content of `.vscode/tasks.json` with:
-
-```json
-{
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Install Python Packages",
-            "type": "shell",
-            "command": "python",
-            "args": ["installs_required.py"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Install VS Code Extensions",
-            "type": "shell", 
-            "command": "python",
-            "args": ["install_vscode_extensions.py"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Install Everything",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Install Python Packages",
-                "Install VS Code Extensions"
-            ],
-            "group": "build"
-        }
-    ]
-}
-```
-
-### Step 3: Run Tasks
-
-1. **Open Command Palette:** `Ctrl+Shift+P`
-2. **Type:** "Tasks: Run Task"
-3. **Choose:**
-   - "Install Python Packages" - for package installation
-   - "Install VS Code Extensions" - for extension installation  
-   - "Install Everything" - for both (runs sequentially)
 
 ## Troubleshooting
 
