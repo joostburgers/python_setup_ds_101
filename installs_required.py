@@ -214,6 +214,7 @@ def main():
         # Jupyter ecosystem (includes most micro-dependencies)
         'jupyterlab',
         'ipywidgets',
+        'notebook',
         
         # Basic data science stack
         'pandas',
