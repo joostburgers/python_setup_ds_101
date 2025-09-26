@@ -1,15 +1,19 @@
-# Running Installation Scripts in Visual Studio Code
+# Digital Studies 101 - Python Environment Setup
 
-This guide explains how to set up and run the Digital Studies 101 installation scripts directly from Visual Studio Code.
+This guide explains how to set up a proper Python environment for the Digital Studies 101 course that works correctly with VS Code and Jupyter notebooks, avoiding the "externally-managed-environment" error.
+
+## 🚀 Quick Start
+
+**IMPORTANT:** This setup creates a virtual environment to avoid conflicts with your system Python (especially Homebrew Python on macOS).
 
 ## Prerequisites
 
 1. **Visual Studio Code** installed on your system
-2. **Python 3.8+** installed on your system
+2. **Python 3.8+** installed on your system (Homebrew Python 3.13 works great!)
 3. **Git** installed on your system (for cloning the repository)
 4. **Internet connection** for downloading packages and extensions
 
-## Step 0: Download the Setup Files
+## Step 1: Get the Setup Files
 
 ### Option A: Using Git (Recommended)
 
@@ -20,7 +24,7 @@ This guide explains how to set up and run the Digital Studies 101 installation s
 
 3. **Navigate to where you want to store the setup files:**
    ```bash
-   cd repos    # or wherever you prefer
+   cd Documents    # or wherever you prefer to keep your course files
    ```
 
 4. **Clone the setup repository:**
@@ -33,165 +37,227 @@ This guide explains how to set up and run the Digital Studies 101 installation s
    cd python_setup_ds_101
    ```
 
+6. **Open the folder in VS Code:**
+   ```bash
+   code .
+   ```
 
-## Step 1: Open the Setup Project in VS Code
+### Option B: Download ZIP (Alternative)
+1. Go to: https://github.com/joostburgers/python_setup_ds_101
+2. Click "Code" → "Download ZIP"
+3. Extract to your desired location
+4. Open the folder in VS Code
 
-1. **If you used Git clone, VS Code should already be in the right directory**
+## Step 2: Run the NEW Setup Script
 
-2. **Verify you're in the right place:**
-   - You should see files like `installs_required.py` and `install_vscode_extensions.py` in the file explorer
+**Important:** We now use a single improved script that creates a virtual environment and sets everything up properly.
 
-## Method 1: Using VS Code's Integrated Terminal (Recommended)
+### Using VS Code's Integrated Terminal
 
-### Step 2: Open the Integrated Terminal
+1. **Make sure you're in the `python_setup_ds_101` folder in VS Code**
 
-1. **Open terminal in VS Code:**
+2. **Open the integrated terminal:**
    - Press `` Ctrl+` `` (backtick) OR
-   - Go to `View` → `Terminal` OR
-   - Press `Ctrl+Shift+P` and type "Terminal: Create New Terminal"
+   - Go to `View` → `Terminal`
 
-2. **Verify you're in the right directory:**
-   - The terminal should show the path to your `python_setup_ds_101` folder
-   - You should see files like `installs_required.py` and `install_vscode_extensions.py`
+3. **Run the new setup script:**
+   ```bash
+   python setup_python_environment.py
+   ```
+   
+   *If `python` doesn't work, try:*
+   ```bash
+   python3 setup_python_environment.py
+   ```
 
-### Step 3: Run the Installation Scripts
+4. **Wait for completion** (this can take 15-30 minutes)
+   - Watch for ✅ green checkmarks indicating success
+   - The script will create a virtual environment called `ds101_env`
+   - It will install all packages in the isolated environment
+   - It will set up a Jupyter kernel for VS Code
 
-#### First: Install Python Packages and Dependencies
-```bash
-python installs_required.py
-```
-*This installs all the Python packages needed for the course (pandas, matplotlib, spacy, etc.)*
+## Step 3: Install VS Code Extensions (Optional but Recommended)
 
-#### Second: Install VS Code Extensions  
+After the Python environment setup completes:
+
 ```bash
 python install_vscode_extensions.py
 ```
-*This installs helpful VS Code extensions for Python development and Jupyter notebooks*
 
-### Step 4: Monitor Progress
+## Step 4: Restart VS Code and Test
 
-- Watch the terminal output for installation progress
-- Green checkmarks ✅ indicate successful installations
-- Red X marks ❌ indicate failures that may need manual attention
-- **The first script may take 15-30 minutes** depending on your internet connection
-- **The second script is usually much faster** (2-5 minutes)
+1. **Completely close and restart VS Code**
+2. **Open the `python_setup_ds_101` folder again**
+3. **Create a test notebook:**
+   - Create a new file: `test.ipynb`
+   - VS Code will prompt you to select a kernel
+   - **Choose "Python (Digital Studies 101)"** from the kernel list
+4. **Test the environment:**
+   ```python
+   import pandas as pd
+   import matplotlib.pyplot as plt
+   import plotly.express as px
+   print("✅ Environment is working!")
+   ```
+
+## 🔧 What This Setup Does (Technical Details)
+
+The new setup script solves the Jupyter kernel problem by:
+
+1. **Creating an isolated virtual environment** (`ds101_env/`)
+2. **Installing all packages in the virtual environment** (no conflicts with system Python)
+3. **Registering a Jupyter kernel** that VS Code can use
+4. **Configuring VS Code settings** to use the correct Python interpreter
+5. **Bypassing Homebrew's "externally-managed" restrictions**
 
 ## Troubleshooting
 
-### Git Not Found (For Step 0)
-**Error:** `'git' is not recognized as an internal or external command`
+### ❌ "externally-managed-environment" Error
+**This is fixed by the new setup!** The virtual environment bypasses this Homebrew restriction.
 
-**Solutions:**
-1. **Download Git:** https://git-scm.com/downloads
-2. **Use the ZIP download option instead** (Option B in Step 0)
-3. **Restart VS Code** after installing Git
+### ❌ "No module named ipykernel_launcher"
+**This is fixed by the new setup!** The script installs `ipykernel` in the virtual environment.
 
-### Python Not Found
-**Error:** `'python' is not recognized as an internal or external command`
-
+### ❌ Python/Python3 Not Found
 **Solutions:**
 1. **Try `python3` instead of `python`:**
    ```bash
-   python3 installs_required.py
+   python3 setup_python_environment.py
    ```
 
-2. **Use full Python path:**
+2. **Use full Python path (if Homebrew):**
    ```bash
-   C:\Users\[YourUsername]\AppData\Local\Programs\Python\Python313\python.exe installs_required.py
+   /opt/homebrew/bin/python3 setup_python_environment.py
    ```
 
-3. **Fix Python PATH:**
-   - Reinstall Python with "Add to PATH" option checked
-   - Or manually add Python to your system PATH
+3. **Fix Python PATH or reinstall with PATH option**
 
-### VS Code Extensions Script Fails
-**Error:** VS Code command not found
-
+### ❌ VS Code Not Detecting the Kernel
 **Solutions:**
-1. **Reinstall VS Code** with "Add to PATH" option
-2. **Restart VS Code** after installation
-3. **Run as Administrator** if on Windows
+1. **Restart VS Code completely** (close all windows)
+2. **Reload the window:** `Ctrl+Shift+P` → "Developer: Reload Window"
+3. **Manually select interpreter:** `Ctrl+Shift+P` → "Python: Select Interpreter" → Browse to `ds101_env/bin/python` (or `ds101_env\Scripts\python.exe` on Windows)
 
-### Permission Errors
-**Error:** Permission denied or access errors
+### ❌ Packages Not Found in Jupyter
+**This means the wrong kernel is selected:**
+1. **Click the kernel name** in the top-right of your notebook
+2. **Select "Python (Digital Studies 101)"** from the list
+3. **If not visible:** Restart VS Code and try again
 
-**Solutions:**
-1. **Run VS Code as Administrator** (Windows)
-2. **Check file permissions** in terminal:
-   ```bash
-   ls -la *.py  # On macOS/Linux
-   dir *.py     # On Windows
-   ```
+## 🧠 Why Virtual Environments?
 
-### Network/Download Issues
-**Error:** Timeout or connection errors
+**The Problem:** 
+- Homebrew Python 3.13+ is "externally managed" 
+- Cannot install packages globally with pip
+- System Python conflicts with course packages
+- Jupyter kernels get confused about which Python to use
 
-**Solutions:**
-1. **Check internet connection**
-2. **Try running scripts one at a time**
-3. **Use a VPN** if behind restrictive firewall
-4. **Run during off-peak hours** for large downloads
+**The Solution:**
+- Virtual environment isolates your course packages
+- No conflicts with system/Homebrew Python
+- Clean, reproducible environment
+- Easy to reset if something breaks
 
-## Post-Installation
+## Advanced Usage
 
-### Verify Python Packages
+### Manually Activate the Environment
+If you need to use the terminal directly:
+
+**macOS/Linux:**
 ```bash
-python -c "import pandas, matplotlib, plotly, nltk, spacy; print('All packages imported successfully!')"
+source ds101_env/bin/activate
 ```
 
-### Verify VS Code Extensions
-1. **Open Extensions panel:** `Ctrl+Shift+X`
-2. **Check installed extensions:** Look for Python, Jupyter, etc.
+**Windows:**
+```bash
+ds101_env\Scripts\activate
+```
 
-### Test Jupyter Notebooks
-1. **Open a `.ipynb` file** in VS Code
-2. **Select Python kernel** when prompted
-3. **Run a test cell** to verify everything works
+### Reset Everything
+If something goes wrong, delete the `ds101_env` folder and re-run:
+```bash
+rm -rf ds101_env  # macOS/Linux
+rmdir /s ds101_env  # Windows
+python setup_python_environment.py
+```
 
-## Tips for Students
+### Check What's Installed
+```bash
+# Activate environment first (see above)
+pip list
+```
 
-1. **Always use the integrated terminal** - keeps everything in one place
-2. **Read the output carefully** - it shows exactly what's happening
-3. **Don't panic if something fails** - most issues can be fixed by re-running
-4. **Ask for help early** - don't struggle alone with installation issues
-5. **Keep VS Code updated** - newer versions have better Python support
+## ✅ Verification Steps
 
-## Getting Started Summary
+### Test Your Environment
+```bash
+# This should work without errors:
+python -c "import pandas, matplotlib, plotly, nltk, spacy; print('✅ All packages working!')"
+```
 
-**For students new to this process, here's the quick version:**
-
-1. **Get the setup files:**
-   - Go to: https://github.com/joostburgers/python_setup_ds_101
-   - Download ZIP or clone with Git
-
-2. **Open in VS Code:**
-   - Open the downloaded/cloned folder in VS Code
-
-3. **Run the scripts:**
-   - Open terminal in VS Code (`` Ctrl+` ``)
-   - Run: `python installs_required.py`
-   - Wait for completion, then run: `python install_vscode_extensions.py`
-
-4. **Restart VS Code** when done
-
-## Next Steps
-
-After successful installation:
-
-1. **Restart VS Code** to activate all extensions
-2. **Clone or download your course materials** (separate from the setup repository)
-3. **Open a Jupyter notebook** to test the environment
-4. **Configure Git** if you haven't already:
-   ```bash
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
+### Test Jupyter in VS Code
+1. **Create a new notebook:** `test.ipynb`
+2. **Select the kernel:** "Python (Digital Studies 101)"
+3. **Run this test cell:**
+   ```python
+   import pandas as pd
+   import matplotlib.pyplot as plt
+   import plotly.express as px
+   print("✅ Environment is working!")
+   print(f"Pandas version: {pd.__version__}")
    ```
-5. **Start working** on your Digital Studies assignments!
+
+### Check VS Code Extensions
+1. **Open Extensions panel:** `Ctrl+Shift+X`
+2. **Look for:** Python, Jupyter, Rainbow CSV extensions
+
+## 📝 Quick Summary for Students
+
+**New simple process:**
+1. Clone or download this repository
+2. Open it in VS Code
+3. Run: `python setup_python_environment.py`
+4. Wait for completion (15-30 minutes)
+5. Restart VS Code
+6. Select "Python (Digital Studies 101)" kernel in notebooks
+
+**What this fixes:**
+- ✅ "externally-managed-environment" errors
+- ✅ "No module named ipykernel_launcher" errors  
+- ✅ Jupyter kernel registration issues
+- ✅ Package conflicts between system/Homebrew Python
+
+## 📚 After Setup: Using Your Environment
+
+### Starting New Projects
+1. **Copy the `ds101_env` folder** to your new project
+2. **Or:** Create a new virtual environment using the same packages
+
+### Working with Course Materials
+1. **Always select the "Python (Digital Studies 101)" kernel**
+2. **If packages are missing:** They're probably in a different kernel
+
+### Sharing Your Work
+- **Don't commit `ds101_env/`** to git (add to `.gitignore`)
+- **Share your requirements:** Use `pip freeze > requirements.txt`
+
+## 🆘 Getting Help
+
+If you encounter issues:
+
+1. **Read the error message carefully**
+2. **Try the troubleshooting steps above**  
+3. **Check the GitHub Issues:** https://github.com/joostburgers/python_setup_ds_101/issues
+4. **Ask for help with:**
+   - Your operating system
+   - The exact error message
+   - What step failed
 
 ---
 
-**Need Help?** 
-- **Setup Repository:** https://github.com/joostburgers/python_setup_ds_101
-- VS Code Python tutorial: https://code.visualstudio.com/docs/python/python-tutorial
-- Python extension documentation: https://marketplace.visualstudio.com/items?itemName=ms-python.python
-- Course discussion forum or office hours
+**Setup Repository:** https://github.com/joostburgers/python_setup_ds_101
+
+**Additional Resources:**
+- [VS Code Python Tutorial](https://code.visualstudio.com/docs/python/python-tutorial)
+- [Python Virtual Environments Guide](https://docs.python.org/3/tutorial/venv.html)
+- [Jupyter in VS Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks)
